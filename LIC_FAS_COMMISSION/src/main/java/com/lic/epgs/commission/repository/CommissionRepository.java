@@ -1,21 +1,22 @@
-@Repository
-public interface CommissionRepository extends JpaRepository<CommonCommissionDto, Long>{
+package com.lic.epgs.commission.repository;
 
-	List<CommonCommissionDto> findByStatus(String status);
-	
-	@Transactional
-	@Modifying
-	@Query("UPDATE CommonCommissionDto c SET c.status=:status WHERE c.id=:id")
-	int updateStatus(@Param("status") String status, @Param("id") Long id);
-	
-	@Transactional
-	@Modifying
-	@Query("DELETE FROM CommonCommissionDto c WHERE c.status=:status")
-	int deleteByStatus(@Param("status") String status);
-	
-	@Transactional
-	@Modifying
-	@Query("SELECT c FROM CommonCommissionDto c WHERE c.status=:status")
-	List<CommonCommissionDto> loadQuestionMaster(@Param("status") String status);
+import com.lic.epgs.commission.dto.CommissionDto;
+import com.lic.epgs.commission.dto.CommissionDetailsDto;
+import com.lic.epgs.commission.entity.Commission;
+import com.lic.epgs.commission.entity.CommissionDetailsEntity;
+import com.lic.epgs.commission.entity.CommissionQuestionDetailsTempEntity;
+import com.lic.epgs.commission.entity.CommissionNotesTempEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface CommissionRepository extends JpaRepository<Commission, Long> {
+
+    public Commission saveCommission(CommissionDto commissionDto) throws ConstraintViolationException, PersistenceException;
+    public CommissionDetailsEntity saveCommissionDetails(CommissionDetailsDto commissionDetailsDto) throws ConstraintViolationException, PersistenceException;
+    public List<CommissionQuestionDetailsTempEntity> saveCommissionQuestionDetailsTemp(CommissionQuestionDetailsTempEntity commissionQuestionDetailsTempEntity) throws ConstraintViolationException, PersistenceException;
+    public List<CommissionNotesTempEntity> saveCommissionNotesTemp(CommissionNotesTempEntity commissionNotesTempEntity) throws ConstraintViolationException, PersistenceException;
 
 }
