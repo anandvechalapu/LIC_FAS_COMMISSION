@@ -1,34 +1,45 @@
 package com.lic.epgs.commission.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lic.epgs.commission.entity.CommissionEntity;
-import com.lic.epgs.commission.entity.CommissionTempEntity;
+import com.lic.epgs.commission.model.CommissionEntity;
+import com.lic.epgs.commission.model.CommissionTempEntity;
 import com.lic.epgs.commission.repository.CommissionRepository;
 
 @Service
 public class CommissionService {
 
-	@Autowired
-	private CommissionRepository commissionRepository;
+    @Autowired
+    private CommissionRepository commissionRepository;
 
-	public CommissionEntity findByCommissionId(Long commissionId) {
-		return commissionRepository.findByCommissionId(commissionId);
-	}
+    //Method to update the commission status in CommissionTempEntity
+    public void updateCommissionTempStatus(Long commissionId, String status) {
+        commissionRepository.updateCommissionTempStatus(commissionId, status);
+    }
 
-	public List<CommissionEntity> findAllCommissionEntities() {
-		return commissionRepository.findAll();
-	}
+    //Method to update the commission status in CommissionEntity
+    public void updateCommissionStatus(Long commissionId, String status) {
+        commissionRepository.updateCommissionStatus(commissionId, status);
+    }
 
-	public void saveCommissionEntity(CommissionEntity commissionEntity) {
-		commissionRepository.saveCommissionEntity(commissionEntity);
-	}
+    //Method to add commission notes to the table
+    public void addCommissionNotes(Long commissionId, String notes) {
+        commissionRepository.addCommissionNotes(commissionId, notes);
+    }
 
-	public void saveCommissionTempEntity(CommissionTempEntity commissionTempEntity) {
-		commissionRepository.saveCommissionTempEntity(commissionTempEntity);
-	}
+    //Method to add commission question details to the table
+    public void addCommissionQuestionDetails(Long commissionId, String questionDetails) {
+        commissionRepository.addCommissionQuestionDetails(commissionId, questionDetails);
+    }
 
+    //Method to handle constraint violation
+    public void handleConstraintViolation(Long commissionId) {
+        commissionRepository.handleConstraintViolation(commissionId);
+    }
+
+    //Method to handle persistence exception
+    public void handlePersistenceException(Long commissionId) {
+        commissionRepository.handlePersistenceException(commissionId);
+    }
 }
