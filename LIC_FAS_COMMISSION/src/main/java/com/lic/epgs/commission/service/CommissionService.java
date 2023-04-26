@@ -1,49 +1,77 @@
 package com.lic.epgs.commission.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lic.epgs.commission.model.Commission;
+import com.lic.epgs.commission.model.CommissionTempEntity;
+import com.lic.epgs.commission.model.CommissionQuestionDetailsTempEntity;
+import com.lic.epgs.commission.model.CommissionNotesTempEntity;
+import com.lic.epgs.commission.model.CommissionEntity;
+import com.lic.epgs.commission.model.CommissionQuestionDetailsEntity;
+import com.lic.epgs.commission.model.CommissionNotesEntity;
+import com.lic.epgs.commission.repository.CommissionTempRepository;
+import com.lic.epgs.commission.repository.CommissionQuestionDetailsTempRepository;
+import com.lic.epgs.commission.repository.CommissionNotesTempRepository;
 import com.lic.epgs.commission.repository.CommissionRepository;
+import com.lic.epgs.commission.repository.CommissionQuestionDetailsRepository;
+import com.lic.epgs.commission.repository.CommissionNotesRepository;
 
 @Service
 public class CommissionService {
-
+    
+    @Autowired
+    private CommissionTempRepository commissionTempRepository;
+    
+    @Autowired
+    private CommissionQuestionDetailsTempRepository commissionQuestionDetailsTempRepository;
+    
+    @Autowired
+    private CommissionNotesTempRepository commissionNotesTempRepository;
+    
     @Autowired
     private CommissionRepository commissionRepository;
-
-    public Optional<Commission> getCommissionById(Long commissionId) {
-        return commissionRepository.getCommissionById(commissionId);
+    
+    @Autowired
+    private CommissionQuestionDetailsRepository commissionQuestionDetailsRepository;
+    
+    @Autowired
+    private CommissionNotesRepository commissionNotesRepository;
+    
+    public CommissionTempEntity getCommissionTemp(Long commissionId, Boolean isActive) {
+        return commissionTempRepository.findByCommissionIdAndIsActive(commissionId, isActive);
     }
-
-    public Commission save(Commission commission) {
-        return commissionRepository.save(commission);
+    
+    public List<CommissionQuestionDetailsTempEntity> getCommissionQuestionDetailsTemp(Long commissionId, Boolean isActive) {
+        return commissionQuestionDetailsTempRepository.findByCommissionIdAndIsActive(commissionId, isActive);
     }
-
-    public Commission saveAndFlush(Commission commission) {
-        return commissionRepository.saveAndFlush(commission);
+    
+    public List<CommissionNotesTempEntity> getCommissionNotesTemp(Long commissionId, Boolean isActive) {
+        return commissionNotesTempRepository.findByCommissionIdAndIsActive(commissionId, isActive);
     }
-
-    public Commission update(Commission commission) {
-        return commissionRepository.update(commission);
+    
+    public CommissionEntity saveCommission(CommissionEntity commissionEntity) {
+        return commissionRepository.save(commissionEntity);
     }
-
-    public Commission addCommissionDetails(Commission commission) {
-        return commissionRepository.addCommissionDetails(commission);
+    
+    public List<CommissionQuestionDetailsEntity> saveCommissionQuestionDetails(List<CommissionQuestionDetailsEntity> commissionQuestionDetailsEntities) {
+        return commissionQuestionDetailsRepository.saveAll(commissionQuestionDetailsEntities);
     }
-
-    public Commission addCommissionNotesAndQuestions(Commission commission) {
-        return commissionRepository.addCommissionNotesAndQuestions(commission);
+    
+    public List<CommissionNotesEntity> saveCommissionNotes(List<CommissionNotesEntity> commissionNotesEntities) {
+        return commissionNotesRepository.saveAll(commissionNotesEntities);
     }
-
-    public void setTransactionMessage(String message) {
-        commissionRepository.setTransactionMessage(message);
+    
+    public CommissionTempEntity saveCommissionTemp(CommissionTempEntity commissionTempEntity) {
+        return commissionTempRepository.save(commissionTempEntity);
     }
-
-    public void setTransactionStatus(String status) {
-        commissionRepository.setTransactionStatus(status);
+    
+    public List<CommissionQuestionDetailsTempEntity> saveCommissionQuestionDetailsTemp(List<CommissionQuestionDetailsTempEntity> commissionQuestionDetailsTempEntities) {
+        return commissionQuestionDetailsTempRepository.saveAll(commissionQuestionDetailsTempEntities);
     }
-
+    
+    public List<CommissionNotesTempEntity> saveCommissionNotesTemp(List<CommissionNotesTempEntity> commissionNotesTempEntities) {
+        return commissionNotesTempRepository.saveAll(commissionNotesTempEntities);
+    }
 }
