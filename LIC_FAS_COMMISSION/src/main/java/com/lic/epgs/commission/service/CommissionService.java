@@ -1,37 +1,37 @@
 package com.lic.epgs.commission.service;
 
-import com.lic.epgs.commission.dto.CommissionDto;
-import com.lic.epgs.commission.dto.CommissionDetailsDto;
-import com.lic.epgs.commission.entity.Commission;
-import com.lic.epgs.commission.entity.CommissionDetailsEntity;
-import com.lic.epgs.commission.entity.CommissionQuestionDetailsTempEntity;
-import com.lic.epgs.commission.entity.CommissionNotesTempEntity;
-import com.lic.epgs.commission.repository.CommissionRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.lic.epgs.commission.dto.CommonCommissionDto;
+import com.lic.epgs.commission.repository.CommissionRepository;
 
 @Service
 public class CommissionService {
 
-    @Autowired
-    private CommissionRepository commissionRepository;
-
-    public Commission saveCommission(CommissionDto commissionDto) throws ConstraintViolationException, PersistenceException {
-        return commissionRepository.saveCommission(commissionDto);
-    }
-
-    public CommissionDetailsEntity saveCommissionDetails(CommissionDetailsDto commissionDetailsDto) throws ConstraintViolationException, PersistenceException {
-        return commissionRepository.saveCommissionDetails(commissionDetailsDto);
-    }
-
-    public List<CommissionQuestionDetailsTempEntity> saveCommissionQuestionDetailsTemp(CommissionQuestionDetailsTempEntity commissionQuestionDetailsTempEntity) throws ConstraintViolationException, PersistenceException {
-        return commissionRepository.saveCommissionQuestionDetailsTemp(commissionQuestionDetailsTempEntity);
-    }
-
-    public List<CommissionNotesTempEntity> saveCommissionNotesTemp(CommissionNotesTempEntity commissionNotesTempEntity) throws ConstraintViolationException, PersistenceException {
-        return commissionRepository.saveCommissionNotesTemp(commissionNotesTempEntity);
-    }
-
+	@Autowired
+	private CommissionRepository commissionRepository;
+	
+	public List<CommonCommissionDto> getCommissionByStatus(String status){
+		return commissionRepository.findByStatus(status);
+	}
+	
+	@Transactional
+	public int updateStatus(String status, Long id){
+		return commissionRepository.updateStatus(status, id);
+	}
+	
+	@Transactional
+	public int deleteByStatus(String status){
+		return commissionRepository.deleteByStatus(status);
+	}
+	
+	@Transactional
+	public List<CommonCommissionDto> loadQuestionMaster(String status){
+		return commissionRepository.loadQuestionMaster(status);
+	}
+	
 }
